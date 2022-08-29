@@ -44,7 +44,7 @@ a {
   justify-content: center;
   margin-left: auto;
   margin-right: auto;
-  margin-bottom: 20px;
+  margin-top: 30px;
 }
 
 .gallery__item {
@@ -87,4 +87,48 @@ a {
 .info-item {
   text-align: center;
   margin-left: 10px;
+}
+.search-form {
+  margin-left: 200px;
+  margin-top: 50px;
+}
+.form-input {
+  font-size: 19px;
+  width: 300px;
+  height: 40px;
+  margin: 0;
+  padding: 4px 10px;
+  border: 1px solid rgba(33, 33, 33, 0.2);
+  border-radius: 4px;
+  outline: none;
+
+  transition: border-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.form-input:focus {
+  border: 1px solid var(--accent-color);
+}
+
+.button {
+  display: inline-block;
+  border-radius: 4px;
+  border-width: 0;
+  padding: 6px 22px;
+  color: var(--primary-white-color);
+  background-color: var(--accent-color);
+  box-shadow: 0px 4px 4px 0px #00000026;
+
+  font-family: inherit;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.63;
+
+  cursor: pointer;
+
+  transition: color 250ms cubic-bezier(0.4, 0, 0.2, 1),
+    background-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.button:hover,
+.button:focus {
+  color: var(--primary-white-color);
+  background-color: var(--accent-color);
 }
