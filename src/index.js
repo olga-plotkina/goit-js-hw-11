@@ -23,3 +23,8 @@ const onFormSubmitRender = event => {
 };
 
 refs.form.addEventListener('submit', onFormSubmitRender);
+
+let lightbox = new SimpleLightbox('.gallery a', {
+  captionsData: 'alt',
+  captionDelay: 250,
+});
