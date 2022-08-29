@@ -18,13 +18,14 @@ const onFormSubmitRender = event => {
   event.preventDefault();
   const stringOfSearch = event.currentTarget.elements.searchQuery.value;
   getCurrentPicture(stringOfSearch)
-    .then(renderGallery)
+    .then(data => {
+      renderGallery(data);
+      let lightbox = new SimpleLightbox('.gallery a', {
+        captionsData: 'alt',
+        captionDelay: 250,
+      });
+    })
     .catch(error => Notiflix.Notify.failure('Some error here'));
 };
 
 refs.form.addEventListener('submit', onFormSubmitRender);
-
-let lightbox = new SimpleLightbox('.gallery a', {
-  captionsData: 'alt',
-  captionDelay: 250,
-});
