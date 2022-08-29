@@ -29,6 +29,12 @@ ul {
   padding: 0;
 }
 
+a {
+  color: #212121;
+  font: inherit;
+  text-decoration: none;
+}
+
 .gallery {
   display: grid;
   max-width: 1140px;
@@ -52,8 +58,8 @@ ul {
 }
 
 .gallery__image {
-  height: 100%;
   width: 100%;
+  height: 100%;
   object-fit: cover;
   transition: transform var(--animation-duration) var(--timing-function);
 }
@@ -66,4 +72,19 @@ ul {
 
 .gallery__link:hover {
   cursor: zoom-in;
+}
+
+.card-thumb {
+  height: 70%;
+}
+
+.card-content {
+  height: 30px;
+  display: flex;
+  justify-content: baseline;
+}
+
+.info-item {
+  text-align: center;
+  margin-left: 10px;
 }
