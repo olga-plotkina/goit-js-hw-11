@@ -1,8 +1,11 @@
 import axios from 'axios';
 
 export const api = axios.create({
-  baseURL: '',
+  baseURL: 'https://pixabay.com',
   params: {
-    appid: '',
+    key: '29586318-be42348f9d86dafd6196efc0c',
+    image_type: 'photo',
+    orientation: 'horizontal',
+    safesearch: true,
   },
 });
