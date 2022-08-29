@@ -5,27 +5,68 @@ import { getCurrentPicture } from './api/getCurrentPicture';
 import Notiflix from 'notiflix';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
+let stringOfSearch = '';
+let page = 1;
+let pictureAmount = 0;
+
+const options = {
+  root: null,
+  rootMargin: '250px',
+  threshold: 1,
+};
+const observer = new IntersectionObserver(updateGallery, options);
 
 const createPictureGalleryMarkup = pictures => {
-  return pictures.map(picture => pictureGalleryTpl(picture)).join('');
+  return pictureGalleryTpl(pictures.data.hits);
 };
 
 const renderGallery = pictures => {
-  refs.gallery.innerHTML = createPictureGalleryMarkup(pictures);
+  refs.gallery.insertAdjacentHTML(
+    'beforeend',
+    createPictureGalleryMarkup(pictures)
+  );
 };
 
 const onFormSubmitRender = event => {
   event.preventDefault();
-  const stringOfSearch = event.currentTarget.elements.searchQuery.value;
+  refs.gallery.innerHTML = '';
+  stringOfSearch = event.currentTarget.elements.searchQuery.value;
   getCurrentPicture(stringOfSearch)
-    .then(data => {
-      renderGallery(data);
+    .then(dataPictures => {
+      if (dataPictures.data.hits.length === 0) {
+        Notiflix.Notify.failure(
+          'Sorry, there are no images matching your search query. Please try again.'
+        );
+        return;
+      }
+      console.log(dataPictures);
+      Notiflix.Notify.success(
+        `Hooray! We found ${dataPictures.data.totalHits} images.`
+      );
+      renderGallery(dataPictures);
       let lightbox = new SimpleLightbox('.gallery a', {
         captionsData: 'alt',
         captionDelay: 250,
       });
+      observer.observe(refs.guard);
     })
     .catch(error => Notiflix.Notify.failure('Some error here'));
 };
 
 refs.form.addEventListener('submit', onFormSubmitRender);
+
+function updateGallery(entries) {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      getCurrentPicture(stringOfSearch, (page += 1))
+        .then(data => {
+          renderGallery(data);
+          let lightbox = new SimpleLightbox('.gallery a', {
+            captionsData: 'alt',
+            captionDelay: 250,
+          });
+        })
+        .catch(error => Notiflix.Notify.failure('Some error here'));
+    }
+  });
+}
