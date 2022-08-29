@@ -1,8 +1,11 @@
+import Notiflix from 'notiflix';
 import { api } from './api';
 
-export const getCurrentPicture = async () => {
+export const getCurrentPicture = async picture => {
   try {
-    const response = api.get('/weather', { params: {} });
-    return (await response).data;
-  } catch (error) {}
+    const response = await api.get('/weather', { params: { picture } });
+    return response.data;
+  } catch (error) {
+    Notiflix.Notify.failure(error.message);
+  }
 };
