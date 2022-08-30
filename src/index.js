@@ -31,26 +31,24 @@ const onFormSubmitRender = event => {
   event.preventDefault();
   refs.gallery.innerHTML = '';
   stringOfSearch = event.currentTarget.elements.searchQuery.value;
-  getCurrentPicture(stringOfSearch)
-    .then(dataPictures => {
-      if (dataPictures.data.hits.length === 0) {
-        Notiflix.Notify.failure(
-          'Sorry, there are no images matching your search query. Please try again.'
-        );
-        return;
-      }
-      console.log(dataPictures);
-      Notiflix.Notify.success(
-        `Hooray! We found ${dataPictures.data.totalHits} images.`
+  getCurrentPicture(stringOfSearch).then(dataPictures => {
+    if (dataPictures.data.hits.length === 0) {
+      Notiflix.Notify.failure(
+        'Sorry, there are no images matching your search query. Please try again.'
       );
-      renderGallery(dataPictures);
-      let lightbox = new SimpleLightbox('.gallery a', {
-        captionsData: 'alt',
-        captionDelay: 250,
-      });
-      observer.observe(refs.guard);
-    })
-    .catch(error => Notiflix.Notify.failure('Some error here'));
+      return;
+    }
+    console.log(dataPictures);
+    Notiflix.Notify.success(
+      `Hooray! We found ${dataPictures.data.totalHits} images.`
+    );
+    renderGallery(dataPictures);
+    let lightbox = new SimpleLightbox('.gallery a', {
+      captionsData: 'alt',
+      captionDelay: 250,
+    });
+    observer.observe(refs.guard);
+  });
 };
 
 refs.form.addEventListener('submit', onFormSubmitRender);
@@ -58,25 +56,23 @@ refs.form.addEventListener('submit', onFormSubmitRender);
 function updateGallery(entries) {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
-      getCurrentPicture(stringOfSearch, (page += 1))
-        .then(dataPictures => {
-          if (
-            dataPictures.data.hits.length * page >=
-            dataPictures.data.totalHits
-          ) {
-            Notiflix.Notify.failure(
-              'We are sorry, but you have reached the end of search results.'
-            );
-            return;
-          }
+      getCurrentPicture(stringOfSearch, (page += 1)).then(dataPictures => {
+        if (
+          dataPictures.data.hits.length * page >=
+          dataPictures.data.totalHits
+        ) {
+          Notiflix.Notify.failure(
+            'We are sorry, but you have reached the end of search results.'
+          );
+          return;
+        }
 
-          renderGallery(dataPictures);
-          let lightbox = new SimpleLightbox('.gallery a', {
-            captionsData: 'alt',
-            captionDelay: 250,
-          });
-        })
-        .catch(error => Notiflix.Notify.failure('Some error here'));
+        renderGallery(dataPictures);
+        let lightbox = new SimpleLightbox('.gallery a', {
+          captionsData: 'alt',
+          captionDelay: 250,
+        });
+      });
     }
   });
 }
