@@ -59,8 +59,18 @@ function updateGallery(entries) {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       getCurrentPicture(stringOfSearch, (page += 1))
-        .then(data => {
-          renderGallery(data);
+        .then(dataPictures => {
+          if (
+            dataPictures.data.hits.length * page >=
+            dataPictures.data.totalHits
+          ) {
+            Notiflix.Notify.failure(
+              'We are sorry, but you have reached the end of search results.'
+            );
+            return;
+          }
+
+          renderGallery(dataPictures);
           let lightbox = new SimpleLightbox('.gallery a', {
             captionsData: 'alt',
             captionDelay: 250,
