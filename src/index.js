@@ -8,6 +8,10 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 let stringOfSearch = '';
 let page = 1;
 let pictureAmount = 0;
+let lightbox = new SimpleLightbox('.gallery a', {
+  captionsData: 'alt',
+  captionDelay: 250,
+});
 
 const options = {
   root: null,
@@ -27,15 +31,15 @@ const renderGallery = pictures => {
   );
 };
 
-let lightbox = new SimpleLightbox('.gallery a', {
-  captionsData: 'alt',
-  captionDelay: 250,
-});
-
 const onFormSubmitRender = event => {
   event.preventDefault();
+  // observer.destroy();
   refs.gallery.innerHTML = '';
   stringOfSearch = event.currentTarget.elements.searchQuery.value;
+  if (stringOfSearch === '') {
+    Notiflix.Notify.failure('Please, enter some name');
+    return;
+  }
   getCurrentPicture(stringOfSearch).then(dataPictures => {
     if (dataPictures.data.hits.length === 0) {
       Notiflix.Notify.failure(
@@ -47,8 +51,8 @@ const onFormSubmitRender = event => {
       `Hooray! We found ${dataPictures.data.totalHits} images.`
     );
     renderGallery(dataPictures);
-    observer.observe(refs.guard);
     lightbox.refresh();
+    observer.observe(refs.guard);
   });
 };
 
@@ -69,7 +73,7 @@ function updateGallery(entries) {
         }
 
         renderGallery(dataPictures);
-        lightbox.refres();
+        lightbox.refresh();
       });
     }
   });
