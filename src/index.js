@@ -33,8 +33,14 @@ const renderGallery = pictures => {
 
 const onFormSubmitRender = event => {
   event.preventDefault();
-  observer.disconnect();
+
+  if (stringOfSearch === event.currentTarget.elements.searchQuery.value) {
+    Notiflix.Notify.failure('Please, enter another name');
+    return;
+  }
   refs.gallery.innerHTML = '';
+  observer.disconnect();
+
   stringOfSearch = event.currentTarget.elements.searchQuery.value;
   if (stringOfSearch === '') {
     Notiflix.Notify.failure('Please, enter some name');
