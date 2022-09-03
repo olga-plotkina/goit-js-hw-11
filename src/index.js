@@ -27,6 +27,11 @@ const renderGallery = pictures => {
   );
 };
 
+let lightbox = new SimpleLightbox('.gallery a', {
+  captionsData: 'alt',
+  captionDelay: 250,
+});
+
 const onFormSubmitRender = event => {
   event.preventDefault();
   refs.gallery.innerHTML = '';
@@ -38,16 +43,12 @@ const onFormSubmitRender = event => {
       );
       return;
     }
-    console.log(dataPictures);
     Notiflix.Notify.success(
       `Hooray! We found ${dataPictures.data.totalHits} images.`
     );
     renderGallery(dataPictures);
-    let lightbox = new SimpleLightbox('.gallery a', {
-      captionsData: 'alt',
-      captionDelay: 250,
-    });
     observer.observe(refs.guard);
+    lightbox.refresh();
   });
 };
 
@@ -68,10 +69,7 @@ function updateGallery(entries) {
         }
 
         renderGallery(dataPictures);
-        let lightbox = new SimpleLightbox('.gallery a', {
-          captionsData: 'alt',
-          captionDelay: 250,
-        });
+        lightbox.refres();
       });
     }
   });
