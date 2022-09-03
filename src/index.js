@@ -33,7 +33,7 @@ const renderGallery = pictures => {
 
 const onFormSubmitRender = event => {
   event.preventDefault();
-  // observer.destroy();
+  observer.disconnect();
   refs.gallery.innerHTML = '';
   stringOfSearch = event.currentTarget.elements.searchQuery.value;
   if (stringOfSearch === '') {
