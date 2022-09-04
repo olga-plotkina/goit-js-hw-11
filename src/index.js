@@ -38,7 +38,7 @@ const onFormSubmitRender = event => {
     Notiflix.Notify.failure('Please, enter another name');
     return;
   }
-  refs.gallery.innerHTML = '';
+
   observer.disconnect();
 
   stringOfSearch = event.currentTarget.elements.searchQuery.value;
@@ -56,6 +56,7 @@ const onFormSubmitRender = event => {
     Notiflix.Notify.success(
       `Hooray! We found ${dataPictures.data.totalHits} images.`
     );
+    refs.gallery.innerHTML = '';
     renderGallery(dataPictures);
     lightbox.refresh();
     observer.observe(refs.guard);
